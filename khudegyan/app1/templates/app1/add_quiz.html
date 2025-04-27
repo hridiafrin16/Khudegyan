@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Quiz</title>
+</head>
+<body>
+    <h1>Add a Quiz</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Quiz</button>
+    </form>
+
+    <p><a href="{% url 'home' %}">Back to Home</a></p>
+</body>
+</html>

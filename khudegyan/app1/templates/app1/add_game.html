@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Game Record</title>
+</head>
+<body>
+    <h1>Add Gaming Engine Record</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Game</button>
+    </form>
+
+    <p><a href="{% url 'home' %}">Back to Home</a></p>
+</body>
+</html>

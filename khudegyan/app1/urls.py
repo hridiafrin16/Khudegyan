@@ -37,4 +37,8 @@ path('add-course/', add_course, name='add_course'),
 
 path('signup/', signup_view, name='signup'),
 
+path('courses/', course_list, name='course_list'),
+path('teachers/', teacher_list, name='teacher_list'),
+path('quizzes/', quiz_list, name='quiz_list'),
+
 ]

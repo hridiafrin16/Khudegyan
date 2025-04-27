@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quizzes</title>
+</head>
+<body>
+    <h1>📝 Quizzes</h1>
+
+    <ul>
+        {% for quiz in quizzes %}
+            <li>{{ quiz.title }} - Course: {{ quiz.course.title }}</li>
+        {% empty %}
+            <li>No quizzes available yet.</li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{% url 'home' %}">Back to Home</a></p>
+</body>
+</html>

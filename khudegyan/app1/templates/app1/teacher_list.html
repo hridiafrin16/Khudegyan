@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teachers</title>
+</head>
+<body>
+    <h1>👨‍🏫 Teachers</h1>
+
+    <ul>
+        {% for teacher in teachers %}
+            <li>{{ teacher.user.username }} - Expertise: {{ teacher.expertise_area }}</li>
+        {% empty %}
+            <li>No teachers available yet.</li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{% url 'home' %}">Back to Home</a></p>
+</body>
+</html>

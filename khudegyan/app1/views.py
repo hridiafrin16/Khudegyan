@@ -272,3 +272,18 @@ def signup_view(request):
     else:
         form = SignUpForm()
     return render(request, 'app1/signup.html', {'form': form})
+
+# Courses Page
+def course_list(request):
+    courses = Course.objects.all()
+    return render(request, 'app1/course_list.html', {'courses': courses})
+
+# Teachers Page
+def teacher_list(request):
+    teachers = Teacher.objects.all()
+    return render(request, 'app1/teacher_list.html', {'teachers': teachers})
+
+# Quizzes Page
+def quiz_list(request):
+    quizzes = Quiz.objects.all()
+    return render(request, 'app1/quiz_list.html', {'quizzes': quizzes})

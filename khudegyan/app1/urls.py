@@ -41,4 +41,24 @@ path('courses/', course_list, name='course_list'),
 path('teachers/', teacher_list, name='teacher_list'),
 path('quizzes/', quiz_list, name='quiz_list'),
 
+# Dashboards
+path('dashboard/', dashboard_view, name='dashboard'),  # common dashboard to redirect by role
+
+# Teacher Actions
+path('update-material/', update_material_view, name='update_material_page'),
+path('add-quiz-question/', add_quiz_question_view, name='add_quiz_question_page'),
+path('update-progress/', update_progress_view, name='update_progress_page'),
+
+# Student Actions
+path('register-course/', register_course_view, name='course_register_page'),
+path('view-materials/', view_study_material_view, name='view_study_material_page'),
+path('solve-quiz/', solve_quiz_view, name='solve_quiz_page'),
+path('view-progress/', view_progress_report_view, name='view_progress_report_page'),
+
+# Parent Actions
+path('view-child-progress/', view_child_progress_view, name='view_child_progress_page'),
+path('view-child-courses/', view_child_courses_view, name='view_child_courses_page'),
+
+
+
 ]

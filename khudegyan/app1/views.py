@@ -287,3 +287,90 @@ def teacher_list(request):
 def quiz_list(request):
     quizzes = Quiz.objects.all()
     return render(request, 'app1/quiz_list.html', {'quizzes': quizzes})
+
+
+#dashboard
+def dashboard_view(request):
+    if request.user.role == 'teacher':
+        return render(request, 'app1/teacher_dashboard.html')
+    elif request.user.role == 'student':
+        return render(request, 'app1/student_dashboard.html')
+    elif request.user.role == 'parent':
+        return render(request, 'app1/parent_dashboard.html')
+    else:
+        return redirect('home')
+@login_required
+def register_course_view(request):
+    courses = Course.objects.all()
+    return render(request, 'app1/course_register.html', {'courses':courses})
+
+@login_required
+def view_study_material_view(request):
+    student = Student.objects.get(user=request.user)
+    materials = StudyMaterial.objects.filter(course__student=student)
+    return render(request, 'app1/view_study_material.html', {'materials':materials})
+
+@login_required
+def solve_quiz_view(request):
+    quizzes = Quiz.objects.all()
+ # For simplicity, show all questions for now
+    questions = QuizQuestion.objects.all()
+    return render(request, 'app1/solve_quiz.html', {
+    'quiz': quizzes.first(),
+    'questions': questions,
+    })
+
+@login_required
+def view_progress_report_view(request):
+    student = Student.objects.get(user=request.user)
+    reports = ProgressReport.objects.filter(student=student)
+    return render(request, 'app1/view_progress_report.html', {'reports':reports})
+
+@login_required
+def view_child_courses_view(request):
+    parent = Parent.objects.get(user=request.user)
+    student = parent.child
+    courses = Course.objects.filter(student=student)
+    return render(request, 'app1/view_child_courses.html', {'courses':courses})
+
+@login_required
+def view_child_progress_view(request):
+    parent = Parent.objects.get(user=request.user)
+    student = parent.child
+    reports = ProgressReport.objects.filter(student=student)
+    return render(request, 'app1/view_child_progress.html', {'reports':reports})
+
+@login_required
+def update_material_view(request):
+    teacher = Teacher.objects.get(user=request.user)
+    courses = Course.objects.filter(created_by=request.user)
+    materials = StudyMaterial.objects.filter(course__in=courses)
+    return render(request, 'app1/update_material.html', {'materials':materials})
+
+@login_required
+def add_quiz_question_view(request):
+    if request.method == 'POST':
+        quiz_id = request.POST.get('quiz_id')
+        question = request.POST.get('question_text')
+        options = request.POST.get('answer_option')
+        correct = request.POST.get('correct_answer')
+
+        QuizQuestion.objects.create(
+            quiz_id=quiz_id,
+            question_text=question,
+            answer_option=options,
+            correct_answer=correct,
+        )
+        return redirect('add_quiz_question_page')
+
+    quizzes = Quiz.objects.filter(course__created_by=request.user)
+    return render(request, 'app1/add_quiz_question.html', {'quizzes':quizzes})
+
+@login_required
+def update_progress_view(request):
+    teacher = Teacher.objects.get(user=request.user)
+    courses = Course.objects.filter(created_by=request.user)
+    students = Student.objects.filter(user_studentcourse_in=courses)
+
+    reports = ProgressReport.objects.filter(course__in=courses)
+    return render(request, 'app1/update_progress.html', {'reports':reports})

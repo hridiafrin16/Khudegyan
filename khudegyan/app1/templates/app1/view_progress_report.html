@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Progress Report</title>
+</head>
+<body>
+    <h2>Progress Report</h2>
+    <ul>
+        {% for report in reports %}
+            <li>{{ report.course.title }}: Score {{ report.score }} - {{ report.completion_status }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

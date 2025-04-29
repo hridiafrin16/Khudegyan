@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Child’s Courses</title>
+</head>
+<body>
+    <h2>Courses Your Child is Enrolled In</h2>
+    <ul>
+        {% for course in courses %}
+            <li>{{ course.title }} - {{ course.description }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

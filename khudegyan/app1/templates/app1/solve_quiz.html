@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Solve Quiz</title>
+</head>
+<body>
+    <h2>{{ quiz.title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for question in questions %}
+            <p><strong>{{ question.question_text }}</strong></p>
+            <input type="text" name="answer_{{ question.id }}">
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

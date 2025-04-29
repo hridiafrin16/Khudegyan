@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Study Materials</title>
+</head>
+<body>
+    <h2>Study Materials</h2>
+    <ul>
+        {% for material in materials %}
+            <li>{{ material.course.title }} - {{ material.type }} - {{ material.content }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

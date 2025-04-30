@@ -6,7 +6,7 @@ from .models import User
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ['title', 'description', 'created_by']
+        fields = ['title', 'description']
 
 class StudentForm(forms.ModelForm):
     class Meta:

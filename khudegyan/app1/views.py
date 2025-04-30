@@ -5,6 +5,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import SignUpForm
+from django.http import HttpResponseForbidden
+from .forms import CourseForm
+
 
 def home(request):
     courses = Course.objects.all()
@@ -31,14 +34,21 @@ def home(request):
     })
 
 # COURSE
+@login_required
 def add_course(request):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("Only admin can access this page.")
+
     if request.method == 'POST':
         form = CourseForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('home')
+            course = form.save(commit=False)
+            course.created_by = request.user
+            course.save()
+            return redirect('course_list')
     else:
         form = CourseForm()
+
     return render(request, 'app1/add_course.html', {'form': form})
 
 # STUDENT
@@ -461,4 +471,33 @@ def update_progress_view(request):
 
     reports = ProgressReport.objects.filter(course__in=courses)
     return render(request, 'app1/update_progress.html', {'reports':reports})
+
+@login_required
+def update_course(request, pk):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("Only admin can update a course.")
+
+    course = Course.objects.get(id=pk)
+
+    if request.method == 'POST':
+        form = CourseForm(request.POST, instance=course)
+        if form.is_valid():
+            form.save()
+            return redirect('course_list')
+    else:
+        form = CourseForm(instance=course)
+
+    return render(request, 'app1/update_course.html', {'form': form})
+
+
+@login_required
+def delete_course(request, pk):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("Only admin can delete a course.")
+
+    course = Course.objects.get(id=pk)
+    course.delete()
+    return redirect('course_list')
+
+
 

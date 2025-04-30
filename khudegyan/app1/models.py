@@ -15,7 +15,7 @@ class User(AbstractUser):
 class Course(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+#   created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
 # Student
 class Student(models.Model):
@@ -23,10 +23,13 @@ class Student(models.Model):
     grade_level = models.CharField(max_length=20)
     progress_tracking = models.TextField()
 
+
 # Teacher
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     expertise_area = models.CharField(max_length=100)
+
+
 
 # Parent
 class Parent(models.Model):

@@ -1,0 +1,15 @@
+<h2>Update Course</h2>
+<form method="post">
+    {% csrf_token %}
+    <p>Title</p>
+    <input type="text" name="title" value="{{ course.title }}"><br>
+    <p>Description</p>
+    <textarea name="description">{{ course.description }}</textarea><br><br>
+    <button type="submit">Update</button>
+</form>
+<div class="container text-center my-5">
+    <a href="{% url 'home' %}" class="btn btn-success btn-lg rounded-pill shadow-sm">
+        🏡 Go Back to Home
+    </a>
+</div>
+

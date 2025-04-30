@@ -60,5 +60,10 @@ path('view-child-progress/', view_child_progress_view, name='view_child_progress
 path('view-child-courses/', view_child_courses_view, name='view_child_courses_page'),
 
 
+path('update-course/<int:pk>/', update_course, name='update_course'),
+path('delete-course/<int:pk>/', delete_course, name='delete_course'),
+
+
+
 
 ]

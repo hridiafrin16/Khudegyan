@@ -500,4 +500,32 @@ def delete_course(request, pk):
     return redirect('course_list')
 
 
+@login_required
+def add_game(request):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("Only admin can add games.")
+
+    if request.method == 'POST':
+        form = GameForm(request.POST)
+        if form.is_valid():
+            game = form.save(commit=False)
+            game.added_by = request.user
+            game.save()
+            return redirect('game_list')
+    else:
+        form = GameForm()
+    return render(request, 'app1/add_game.html', {'form': form})
+
+
+@login_required
+def game_list(request):
+    if request.user.role != 'student' and not request.user.is_superuser:
+        return HttpResponseForbidden("Access denied.")
+    games = Game.objects.all()
+    return render(request, 'app1/game_list.html', {'games': games})
+
+
+
+
+
 

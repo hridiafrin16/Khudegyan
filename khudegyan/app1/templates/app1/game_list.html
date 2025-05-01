@@ -1,0 +1,10 @@
+<h2>🎮 Available Games</h2>
+<ul class="list-group">
+    {% for game in games %}
+    <li class="list-group-item">
+        <a href="{{ game.url }}" target="_blank">{{ game.title }}</a>
+    </li>
+    {% empty %}
+    <li class="list-group-item text-muted">No games added yet.</li>
+    {% endfor %}
+</ul>

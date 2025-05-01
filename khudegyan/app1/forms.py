@@ -2,6 +2,7 @@ from django import forms
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from .models import User
+from .models import Game
 
 class CourseForm(forms.ModelForm):
     class Meta:
@@ -52,3 +53,9 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'role', 'password1', 'password2']
+
+
+class GameForm(forms.ModelForm):
+    class Meta:
+        model = Game
+        fields = ['title', 'url']

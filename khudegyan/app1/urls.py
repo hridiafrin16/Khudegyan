@@ -63,6 +63,11 @@ path('view-child-courses/', view_child_courses_view, name='view_child_courses_pa
 path('update-course/<int:pk>/', update_course, name='update_course'),
 path('delete-course/<int:pk>/', delete_course, name='delete_course'),
 
+path('add-game/', add_game, name='add_game'),
+path('games/', game_list, name='game_list'),
+
+
+
 
 
 

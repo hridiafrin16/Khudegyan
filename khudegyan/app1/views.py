@@ -524,7 +524,8 @@ def game_list(request):
     games = Game.objects.all()
     return render(request, 'app1/game_list.html', {'games': games})
 
-
+def journey_view(request):
+    return render(request, 'app1/journey.html')
 
 
 

@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Our Journey – KhudeGyan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">🚀 Our Journey Begins Here</h1>
+
+    <!-- Mission -->
+    <div class="mb-5">
+        <h2>🎯 Our Mission</h2>
+        <p>To empower young learners through fun, interactive, and accessible digital education for all ages.</p>
+    </div>
+
+    <!-- Vision -->
+    <div class="mb-5">
+        <h2>🔭 Our Vision</h2>
+        <p>Creating a world where every child can learn and grow with joy, regardless of background or barriers.</p>
+    </div>
+
+    <!-- Student Success Story 1 -->
+    <div class="mb-5">
+        <h2>🎓 Student Success Story</h2>
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p><strong>Yeamin (Grade 2):</strong> "I used to struggle with math, but thanks to KhudeGyan, I now love solving problems. I even ranked in the top 3 of my class!"</p>
+            </div>
+            <div class="col-md-6">
+                <img src="{% static 'app1/images/pic8.jpg' %}" class="img-fluid rounded shadow" alt="Student success">
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Success Story 2 -->
+    <div class="mb-5">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="{% static 'app1/images/pic4.jpg' %}" class="img-fluid rounded shadow" alt="Student success 2">
+            </div>
+            <div class="col-md-6">
+                <p><strong>Rubi (Grade 1):</strong> "Before KhudeGyan, I had never used online learning. Now I enjoy watching study videos, solving quizzes, and even helping my friends!"</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center mt-5">
+        <a href="{% url 'home' %}" class="btn btn-primary btn-lg">Back to Home</a>
+    </div>
+</div>
+</body>
+</html>

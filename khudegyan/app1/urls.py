@@ -66,6 +66,7 @@ path('delete-course/<int:pk>/', delete_course, name='delete_course'),
 path('add-game/', add_game, name='add_game'),
 path('games/', game_list, name='game_list'),
 
+path('journey/', journey_view, name='journey'),
 
 
 

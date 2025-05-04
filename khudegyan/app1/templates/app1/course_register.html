@@ -7,7 +7,7 @@
     <h2>Available Courses</h2>
     <ul>
         {% for course in courses %}
-            <li>{{ course.title }} - <a href="{% url 'register_course' course.id %}">Register</a></li>
+            <li>{{ course.title }} - <a href="{% url 'course_register_page' %}">Register</a></li>
         {% endfor %}
     </ul>
 </body>

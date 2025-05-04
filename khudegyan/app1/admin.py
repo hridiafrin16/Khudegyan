@@ -1,6 +1,8 @@
 from django.contrib import admin
 from .models import *
 from .models import Game, GamingEngine
+from .models import ProgressReport
+from .models import Student, Course
 
 admin.site.register(User)
 admin.site.register(Course)
@@ -13,4 +15,3 @@ admin.site.register(QuizQuestion)
 admin.site.register(ProgressReport)
 admin.site.register(Game)
 admin.site.register(GamingEngine)
-

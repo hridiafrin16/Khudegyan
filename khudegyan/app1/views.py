@@ -9,6 +9,7 @@ from django.http import HttpResponseForbidden
 from .forms import CourseForm
 
 
+
 def home(request):
     courses = Course.objects.all()
     students = Student.objects.all()
@@ -159,10 +160,10 @@ def logout_view(request):
     return redirect('login')
 
 # HOME PAGE
-@login_required
-def home(request):
-    courses = Course.objects.all()
-    return render(request, 'app1/home.html', {'courses': courses})
+#@login_required
+#def home(request):
+   # courses = Course.objects.all()
+   # return render(request, 'app1/home.html', {'courses': courses})
 
 # ADD TEACHER
 @login_required
@@ -397,7 +398,8 @@ def dashboard(request):
 
 @login_required
 def register_course_view(request):
-    courses = Course.objects.all()
+    student = Student.objects.get(user=request.user)
+    courses = Course.objects.exclude(students=student)
     return render(request, 'app1/course_register.html', {'courses':courses})
 
 @login_required
@@ -426,7 +428,7 @@ def view_progress_report_view(request):
 def view_child_courses_view(request):
     parent = Parent.objects.get(user=request.user)
     student = parent.child
-    courses = Course.objects.filter(student=student)
+    courses = student.courses.all()
     return render(request, 'app1/view_child_courses.html', {'courses':courses})
 
 @login_required
@@ -467,7 +469,7 @@ def add_quiz_question_view(request):
 def update_progress_view(request):
     teacher = Teacher.objects.get(user=request.user)
     courses = Course.objects.filter(created_by=request.user)
-    students = Student.objects.filter(user_studentcourse_in=courses)
+    students = Student.objects.filter(course__in=courses)
 
     reports = ProgressReport.objects.filter(course__in=courses)
     return render(request, 'app1/update_progress.html', {'reports':reports})

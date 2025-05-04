@@ -16,6 +16,7 @@ class Course(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
 #   created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    students = models.ManyToManyField('Student', related_name='course_set')
 
     def __str__(self):
         return self.title
@@ -25,6 +26,7 @@ class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     grade_level = models.CharField(max_length=20)
     progress_tracking = models.TextField()
+    courses = models.ManyToManyField('Course', related_name='enrolled_students')
 
     def __str__(self):
         return self.user.username
@@ -53,7 +55,8 @@ class StudyMaterial(models.Model):
     content = models.TextField()
 
     def __str__(self):
-        return self.course
+        return f"{self.course.title} - {self.type}"
+
 
 # Quiz
 class Quiz(models.Model):

@@ -2,13 +2,22 @@
 <html>
 <head>
     <title>Your Progress Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h2>Progress Report</h2>
-    <ul>
-        {% for report in reports %}
-            <li>{{ report.course.title }}: Score {{ report.score }} - {{ report.completion_status }}</li>
-        {% endfor %}
-    </ul>
+<body class="bg-light">
+
+    <div class="container py-5">
+        <h2 class="mb-4 text-primary">Progress Report</h2>
+        <ul class="list-group">
+            {% for report in reports %}
+                <li class="list-group-item">
+                    <strong>{{ report.course.title }}</strong>:
+                    Score <span class="badge bg-info text-dark">{{ report.score }}</span> -
+                    <span class="text-muted">{{ report.completion_status }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
 </body>
 </html>

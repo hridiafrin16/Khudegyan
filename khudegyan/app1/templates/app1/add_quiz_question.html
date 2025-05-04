@@ -3,15 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Quiz Question</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Add a Quiz Question</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save Question</button>
-    </form>
+<body class="bg-light">
 
-    <p><a href="{% url 'home' %}">Back to Home</a></p>
+    <div class="container py-5">
+        <h1 class="mb-4 text-primary">Add a Quiz Question</h1>
+
+        <form method="post" class="bg-white p-4 rounded shadow-sm">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success mt-2">Save Question</button>
+        </form>
+
+        <p class="mt-4">
+            <a href="{% url 'home' %}" class="btn btn-link">Back to Home</a>
+        </p>
+    </div>
+
 </body>
 </html>

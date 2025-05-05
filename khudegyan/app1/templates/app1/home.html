@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,14 +52,12 @@
                 <li class="nav-item"><a class="nav-link" href="{% url 'course_list' %}">📚 Courses</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'teacher_list' %}">👩‍🏫 Teachers</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'quiz_list' %}">📝 Quizzes</a></li>
-
-                {% if user.is_authenticated and user.role == 'student' or user.is_superuser %}
-                <li class="nav-item">
-                   <a class="nav-link" href="{% url 'game_list' %}">🎮Games</a>
-                </li>
+                {% if user.is_authenticated %}
+                    {% if user.role == 'student' or user.is_superuser %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'game_list' %}">🎮 Games</a></li>
+                    {% endif %}
                 {% endif %}
-
-                <li class="nav-item"> <a href="{% url 'dashboard' %}" class="nav-link">📊 Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">📊 Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">🚪 Logout</a></li>
             </ul>
         </div>
@@ -74,94 +73,54 @@
     </div>
 </section>
 
-<!-- Top Courses -->
+<!-- About KhudeGyan -->
 <section class="container my-5">
-    <h2 class="text-center mb-5">📚 Top Courses</h2>
-    <div class="row g-4">
-        {% for course in courses|slice:":3" %}
-        <div class="col-md-4">
-            <div class="card h-100 text-center shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">📘 {{ course.title }}</h5>
-                    <p class="card-text">{{ course.description|truncatewords:15 }}</p>
-                </div>
+    <h2 class="text-center mb-4">📘 About KhudeGyan</h2>
+    <div class="row align-items-center">
+        <!-- Text Content -->
+        <div class="col-md-6">
+            <div class="card p-4 shadow-sm">
+                <p class="fs-5">
+                    <strong>KhudeGyan</strong> is an interactive learning platform built for young minds.
+                    Our goal is to make education <strong>fun, accessible, and engaging</strong> through
+                    <em>courses, quizzes, games, and materials</em>.
+                </p>
+                <p class="fs-5">
+                    Whether you love science, math, art, or just want to challenge yourself with quizzes and games,
+                    KhudeGyan is the place to <strong>learn while having fun</strong>. 🌱📚
+                </p>
             </div>
         </div>
-        {% empty %}
-        <p class="text-center">No courses yet. 📖</p>
-        {% endfor %}
-    </div>
-</section>
 
-<!-- Featured Teachers -->
-<section class="container my-5">
-    <h2 class="text-center mb-5">👩‍🏫 Featured Teachers</h2>
-    <div class="row g-4">
-        {% for teacher in teachers|slice:":3" %}
-        <div class="col-md-4">
-            <div class="card text-center h-100 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">🧑‍🏫 {{ teacher.user.username }}</h5>
-                    <p class="card-text">Expert in {{ teacher.expertise_area }}</p>
-                </div>
-            </div>
+        <!-- Image -->
+        <div class="col-md-6 text-center">
+            <img src="{% static 'images/khudegyan.jpg' %}" alt="About KhudeGyan" class="img-fluid rounded shadow-sm" style="max-height: 350px;">
         </div>
-        {% empty %}
-        <p class="text-center">No teachers found yet. 📚</p>
-        {% endfor %}
     </div>
 </section>
 
-<!-- Leaderboard -->
+<!-- Notice Board -->
 <section class="container my-5">
-    <h2 class="text-center mb-5">🏆 Top Students</h2>
-    <div class="table-responsive">
-        <table class="table table-striped table-hover align-middle">
-            <thead class="table-warning">
-                <tr class="text-center">
-                    <th>👧 Student</th>
-                    <th>🎯 Score</th>
-                    <th>🚀 Level</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for game in games|dictsortreversed:"score"|slice:":5" %}
-                <tr class="text-center">
-                    <td>{{ game.student.user.username }}</td>
-                    <td>{{ game.score }}</td>
-                    <td>{{ game.level }}</td>
-                </tr>
-                {% empty %}
-                <tr><td colspan="3" class="text-center">No games yet. 🎮</td></tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <h2 class="text-center mb-4">📢 Notice Board</h2>
+    <div class="card p-4 shadow-sm">
+        <ul class="list-unstyled fs-5">
+            <li>🗓️ <strong>May 10:</strong> New quizzes will be available in the Science course.</li>
+            <li>📚 <strong>May 15:</strong> Registration opens for “Summer Coding Camp”.</li>
+            <li>🏆 <strong>May 20:</strong> Top students will be featured on the leaderboard!</li>
+        </ul>
     </div>
 </section>
 
-<!-- Upcoming Quizzes -->
-<section class="container my-5">
-    <h2 class="text-center mb-5">📝 Upcoming Quizzes</h2>
-    <ul class="list-group list-group-flush">
-        {% for quiz in quizzes|slice:":3" %}
-        <li class="list-group-item">
-            ✏ <strong>{{ quiz.title }}</strong> ({{ quiz.course.title }})
-        </li>
-        {% empty %}
-        <li class="list-group-item">No quizzes found. 📅</li>
-        {% endfor %}
-    </ul>
-</section>
-
-<!-- Footer -->
-<footer class="text-white text-center py-4">
+<!-- Contact Us -->
+<footer class="text-white text-center py-5">
     <div class="container">
         <h4>📞 Contact Us</h4>
         <p>📧 Email: khudegyan@gmail.com</p>
         <p>📱 Phone: +8801712345678</p>
         <p>📍 Address: 123 Education Street, Farmgate, Dhaka</p>
-        <p>Follow us:</p>
         <p>
+            Follow us:
+            <br>
             <a href="https://www.facebook.com/shunityrahman.priyam" target="_blank" class="text-white fw-bold text-decoration-underline">Facebook</a> |
             <a href="https://x.com/Hridiafrin16?t=rUGfCPE3w4mtifWglndaiw&s=09" target="_blank" class="text-white fw-bold text-decoration-underline">X</a> |
             <a href="https://www.linkedin.com/in/mim-sharif-b05a82287/" target="_blank" class="text-white fw-bold text-decoration-underline">LinkedIn</a>

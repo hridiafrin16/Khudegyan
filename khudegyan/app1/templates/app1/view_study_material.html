@@ -1,21 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Study Materials</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h2>Study Materials</h2>
-    <ul>
-        {% for material in materials %}
-            <li>{{ material.course.title }} - {{ material.type }} - {{ material.content }}</li>
-        {% endfor %}
-    </ul>
+<body class="bg-light">
+    <div class="container my-5">
+        <!-- Header -->
+        <div class="text-center mb-4">
+            <h2 class="fw-bold text-primary">📚 Study Materials</h2>
+        </div>
 
-<!-- Back Button -->
-<div class="container text-center my-5">
-    <a href="{% url 'home' %}" class="btn btn-primary btn-lg rounded-pill shadow-sm">
-        🏡 Back to Home
-    </a>
-</div>
+        <!-- Study Materials List -->
+        {% if materials %}
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for material in materials %}
+                            <li class="list-group-item">
+                                <strong>{{ material.course.title }}</strong> -
+                                <span class="badge bg-secondary">{{ material.type }}</span> -
+                                {{ material.content }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-warning text-center" role="alert">
+                No study materials available.
+            </div>
+        {% endif %}
+
+        <!-- Back Button -->
+        <div class="text-center mt-5">
+            <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg rounded-pill shadow-sm">
+                🏡 Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Optional Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

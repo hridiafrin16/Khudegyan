@@ -2,24 +2,42 @@
 <html>
 <head>
     <title>Child’s Progress Report</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h2>Your Child’s Progress</h2>
-{% if reports %}
-    <ul>
-        {% for report in reports %}
-            <li>{{ report.course.title }}: {{ report.score }} - {{ report.completion_status }}</li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No progress reports found for your child.</p>
-{% endif %}
+<body class="bg-light">
 
-<!-- Back Button -->
-<div class="container text-center my-5">
-    <a href="{% url 'home' %}" class="btn btn-primary btn-lg rounded-pill shadow-sm">
-        🏡 Back to Home
-    </a>
+<div class="container my-5">
+    <div class="text-center mb-4">
+        <h2 class="text-primary">Your Child’s Progress</h2>
+    </div>
+
+    {% if reports %}
+        <ul class="list-group">
+            {% for report in reports %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span><strong>{{ report.course.title }}</strong></span>
+                    <span class="badge bg-info text-dark">
+                        Score: {{ report.score }} - {{ report.completion_status }}
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-warning text-center" role="alert">
+            No progress reports found for your child.
+        </div>
+    {% endif %}
+
+    <!-- Back Button -->
+    <div class="text-center mt-5">
+        <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg rounded-pill shadow">
+            🏡 Back to Dashboard
+        </a>
+    </div>
 </div>
+
+<!-- Optional Bootstrap JS Bundle (for features like modals) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -7,7 +7,9 @@ from .models import *
 from .forms import SignUpForm
 from django.http import HttpResponseForbidden
 from .forms import CourseForm
-
+from django.contrib import messages
+from .models import Student, Course
+from .models import Quiz, QuizQuestion
 
 
 def home(request):
@@ -322,13 +324,34 @@ def view_study_material_view(request):
     return render(request, 'app1/view_study_material.html', {'materials':materials})
 
 @login_required
-def solve_quiz_view(request):
-    quizzes = Quiz.objects.all()
- # For simplicity, show all questions for now
-    questions = QuizQuestion.objects.all()
+def solve_quiz_view(request, quiz_title):
+    try:
+        quiz = Quiz.objects.get(title=quiz_title)
+    except Quiz.DoesNotExist:
+        return HttpResponse("Quiz not found", status=404)
+
+    questions = QuizQuestion.objects.filter(quiz=quiz)
+    results = []
+
+    if request.method == 'POST':
+        for question in questions:
+            user_answer = request.POST.get(question.question_text, '').strip().lower()
+            correct_answer = question.correct_answer.strip().lower()
+            results.append({
+                'question': question.question_text,
+                'your_answer': user_answer,
+                'correct_answer': correct_answer,
+                'is_correct': user_answer == correct_answer,
+            })
+        return render(request, 'app1/solve_quiz.html', {
+            'quiz': quiz,
+            'questions': questions,
+            'results': results
+        })
+
     return render(request, 'app1/solve_quiz.html', {
-    'quiz': quizzes.first(),
-    'questions': questions,
+        'quiz': quiz,
+        'questions': questions
     })
 
 @login_required
@@ -346,10 +369,16 @@ def view_child_courses_view(request):
 
 @login_required
 def view_child_progress_view(request):
-    parent = Parent.objects.get(user=request.user)
-    student = parent.child
+    try:
+        parent = Parent.objects.get(user=request.user)
+        student = parent.child
+    except (Parent.DoesNotExist, Student.DoesNotExist):
+        messages.error(request, "No student assigned to this parent.")
+        return redirect('home')
+
     reports = ProgressReport.objects.filter(student=student)
-    return render(request, 'app1/view_child_progress.html', {'reports':reports})
+    return render(request, 'app1/view_child_progress.html', {'reports': reports})
+
 
 @login_required
 def update_material_view(request):
@@ -399,24 +428,52 @@ def dashboard(request):
 @login_required
 def register_course_view(request):
     student = Student.objects.get(user=request.user)
-    courses = Course.objects.exclude(students=student)
-    return render(request, 'app1/course_register.html', {'courses':courses})
+    all_courses = Course.objects.all()
+    registered_courses = student.courses.all()
+    unregistered_courses = all_courses.exclude(id__in=registered_courses)
+
+    return render(request, 'app1/course_register.html', {
+        'courses': unregistered_courses,
+        'registered_courses': registered_courses
+    })
+
+
+@login_required
+def register_specific_course_view(request, course_title):
+    try:
+        student = Student.objects.get(user=request.user)
+        course = Course.objects.get(title=course_title)
+        student.courses.add(course)
+        messages.success(request, f"You have successfully registered for {course.title}.")
+    except (Student.DoesNotExist, Course.DoesNotExist):
+        messages.error(request, "Something went wrong. Please try again.")
+    return redirect('course_register_page')
+
 
 @login_required
 def view_study_material_view(request):
-    student = Student.objects.get(user=request.user)
-    materials = StudyMaterial.objects.filter(course__student=student)
-    return render(request, 'app1/view_study_material.html', {'materials':materials})
+    user = request.user
+    try:
+        student = Student.objects.get(user=user)
+    except Student.DoesNotExist:
+        messages.error(request, "Student profile not found.")
+        return redirect('student_dashboard')  # or another appropriate page
 
-@login_required
-def solve_quiz_view(request):
-    quizzes = Quiz.objects.all()
+    courses = student.course_set.all()  # assuming ManyToMany between Student and Course
+    materials = StudyMaterial.objects.filter(course__in=courses)
+
+    return render(request, 'app1/View_study_material.html', {'materials': materials})
+
+
+#@login_required
+#def solve_quiz_view(request):
+    #quizzes = Quiz.objects.all()
     # For simplicity, show all questions for now
-    questions = QuizQuestion.objects.all()
-    return render(request, 'app1/solve_quiz.html', {
-        'quiz': quizzes.first(),
-        'questions': questions,
-})
+    #questions = QuizQuestion.objects.all()
+    #return render(request, 'app1/solve_quiz.html', {
+       # 'quiz': quizzes.first(),
+       # 'questions': questions,
+#})
 
 @login_required
 def view_progress_report_view(request):

@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 from .views import *
+from .views import register_specific_course_view
 
 urlpatterns = [
 
@@ -51,8 +52,9 @@ path('update-progress/', update_progress_view, name='update_progress_page'),
 
 # Student Actions
 path('register-course/', register_course_view, name='course_register_page'),
+path('register-course/<str:course_title>/', register_specific_course_view, name='register_course'),
 path('view-materials/', view_study_material_view, name='view_study_material_page'),
-path('solve-quiz/', solve_quiz_view, name='solve_quiz_page'),
+path('solve-quiz/<str:quiz_title>/', solve_quiz_view, name='solve_quiz_page'),
 path('view-progress/', view_progress_report_view, name='view_progress_report_page'),
 
 # Parent Actions
